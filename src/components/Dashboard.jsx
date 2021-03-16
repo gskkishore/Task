@@ -3,7 +3,11 @@ import "./Dashboard.css"
 import { Input } from "antd";
 import Grid from "@material-ui/core/Grid";
 import Modalcomp from "./ModalComp/Modalcomp";
+import Labelbox from '../helpers/labelbox/labelbox';
+
+
 const axios = require('axios');
+
 
 
 
@@ -11,6 +15,7 @@ const axios = require('axios');
 class Dashboard extends Component {
     state = {
     openview: false,
+    updateData: false,
     Name:"",
     Phone:"",
     details:[],
@@ -21,6 +26,9 @@ class Dashboard extends Component {
    handleClickopen = () => {
     this.setState({ openview: true});
   };
+  editData =()=>{
+    this.setState({openview:true})
+  }
   modelopen = (data) => {
     if (data === "view") {
       this.setState({ openview: true });
@@ -57,9 +65,13 @@ class Dashboard extends Component {
             this.setState({
                 details
             })
+            this.setData()
 
             
         })
+    }
+    setData=()=>{
+      this.state.details.Name = this.state.details.Name_api
     }
     componentDidUpdate(){
         axios.get("https://5e81e6a3c130270016a3786e.mockapi.io/Task")
@@ -72,7 +84,7 @@ class Dashboard extends Component {
         })
     }
   closemodal = () => {
-    this.setState({ openview: false });
+    this.setState({ openview: false ,updateData: false});
   };
  moreDetails=(id)=>{
        console.log("checking",id)
@@ -88,8 +100,17 @@ class Dashboard extends Component {
                 this.setState({                
                 })        
   }
+  editData =()=>{
+    this.setState({openview:true,updateData:true})
+  }
+   changeDynamic = (data, key) => {
+        var details = this.state.details;
+        details[key].value = data;
+        this.setState({ details });
+    }
     render () {
         const { Search } = Input;
+        
         return (
             <div>
                 <div className="contacts">Contacts</div>
@@ -137,7 +158,10 @@ class Dashboard extends Component {
                                       <h2>{val.Name_api}</h2>
                                       Phone.No
                                       <h3>{val.Phone_api}</h3>
+                                    <button onClick={this.editData}>Edit</button>
+
                                     </div>
+
                                   )
                                   }
                                   )}
@@ -148,24 +172,51 @@ class Dashboard extends Component {
                 </div>
 <Modalcomp
             visible={this.state.openview}
-            title={"View details"}
+            title={"Add details"}
             closemodal={(e) => this.closemodal(e)}
             xswidth={"xs"}
           >
+            
                         <form onSubmit = {this.submitFunction}>
+                          {this.state.updateData === true ? 
 
             <div>
-              <div>
+              {/* <div style={{padding:"10px"}}>
                 Name
-                <input type="text" size="15" name = "name" required/>
+                <input type="text" style={{width:"50%"}} size="15" name = "name" required/>
                 </div>
-                <div>
+                <div style={{padding:"10px"}}>
                 Ph.No
-                <input type="number"  max="10" name = "phoneno"/>
-              </div>
-                           <button type="submit">Add</button>
+                <input type="number" style={{width:"50%"}}  max="10" name = "phoneno"/>
+              </div> */}
+              
+                   <div>
+                        <Labelbox
+                                    type="text"
+                                    labelname="Name"
+                                    valuelabel={'Name'}
+                                    changeData={(data) => this.changeDynamic(data, 'Name')}
+                                    // value={this.state.details.Name.value}
+                                    
+                                />
+                            <button className="modal_add_button" type="submit">Update</button>
+                    </div>
+               
 
             </div>
+            :<div>
+              <div style={{padding:"10px"}}>
+                Name
+                <input type="text" style={{width:"50%"}} size="15" name = "name" required/>
+                </div>
+                <div style={{padding:"10px"}}>
+                Ph.No
+                <input type="number" style={{width:"50%"}}  max="10" name = "phoneno"/>
+              </div>
+                           <button className="modal_add_button" type="submit">Add</button>
+
+            </div>
+            }
             </form>
 
           </Modalcomp>

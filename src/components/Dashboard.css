@@ -41,3 +41,8 @@ cursor: pointer;
       padding: 10px;
     margin-top: 5px;
 }
+.modal_add_button {
+  display: flex;
+    float: right;
+    margin-right: 15px;
+}
