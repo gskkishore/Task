@@ -1,20 +1,43 @@
 .contacts {
   font-size: 20px;
-  display: flex;
-  align-items: flex-start;
-  color: red;
-  margin-left: 10px;
-  margin-top: 10px;
+    display: flex;
+    align-items: flex-start;
+    color: black;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: normal;
 }
 .searchbox {
   display: flex;
+  margin-left: 15px;
 }
 .search_box {
   display: contents;
 }
 .add_button {
-  margin-left: 5px;
-}
+margin-left: 5px;
+    background-color: gray;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    
+  }
+  .add_button:hover {
+cursor: pointer;
+  }
 .contact_display {
   margin-top: 20px;
+}
+.getdetails {
+      display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-left: 15px;
+    border: double;
+    margin-bottom: 10px;
+}
+.button {
+      padding: 10px;
+    margin-top: 5px;
 }
