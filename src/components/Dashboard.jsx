@@ -35,6 +35,7 @@ class Dashboard extends Component {
     }
   };
   submitFunction =(e) => {
+    console.log("add_data",e)
     e.preventDefault();
     var Name_api = e.target.name.value;
     var Phone_api =e.target.phoneno.value;
@@ -57,6 +58,7 @@ class Dashboard extends Component {
             this.props.history.push("/")
         },1000)
   }
+
    componentDidMount(){
         axios.get("https://5e81e6a3c130270016a3786e.mockapi.io/Task")
         .then(res=>{
@@ -73,8 +75,8 @@ class Dashboard extends Component {
     setData=()=>{
       this.state.details.Name = this.state.details.Name_api
     }
-    componentDidUpdate(){
-        axios.get("https://5e81e6a3c130270016a3786e.mockapi.io/Task")
+    componentDidUpdate(id){
+        axios.get(`https://5e81e6a3c130270016a3786e.mockapi.io/Task/${id}`)
         .then(res=>{
             const details =res.data;
             console.log(details,"detailsdet")
@@ -100,6 +102,31 @@ class Dashboard extends Component {
                 this.setState({                
                 })        
   }
+// edit copy
+update(e) {
+  e.preventDefault();
+  const details = [{
+
+    Name:this.state.details[0].Name,
+    Phone:this.state.details[1].Phone,
+    openview: true
+  }
+     
+  ]
+  axios.put('https://5e81e6a3c130270016a3786e.mockapi.io/Task/{this.state.currentid}', details)
+  console.log(this.state.currentid,"hi")
+  .then(res => console.log(res.data));
+}
+
+// 
+
+
+
+
+
+
+
+
   editData =()=>{
     this.setState({openview:true,updateData:true})
   }
@@ -158,7 +185,9 @@ class Dashboard extends Component {
                                       <h2>{val.Name_api}</h2>
                                       Phone.No
                                       <h3>{val.Phone_api}</h3>
-                                    <button onClick={this.editData}>Edit</button>
+                                    {/* <button onClick={this.editData}>Edit</button> */}
+                                    <button onClick={this.update}>Edit</button>
+
 
                                     </div>
 
